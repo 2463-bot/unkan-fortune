@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>占い館・カフェ【雲漢】 - 総合鑑定室</title>
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', 'Hiragino Mincho ProN', 'MS 明朝', serif;
+            background-color: #0f111a;
+            color: #d1d5db;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #16192b;
+            padding: 45px 35px;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            border: 2px solid #b39247;
+            position: relative;
+        }
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid #2e3557;
+            pointer-events: none;
+        }
+        .shop-title {
+            font-size: 12px;
+            letter-spacing: 0.4em;
+            color: #b39247;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        h1 {
+            color: #e6c673;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 35px;
+            font-weight: normal;
+            letter-spacing: 0.2em;
+            border-bottom: 1px double #3a426f;
+            padding-bottom: 15px;
+        }
+        .profile-badge {
+            display: inline-block;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            background-color: #0f111a;
+            color: #9aa2cb;
+            padding: 4px 16px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            border: 1px solid #2e3557;
+        }
+        .dialogue-box {
+            font-size: 15px;
+            color: #f3f4f6;
+            margin-bottom: 35px;
+            min-height: 90px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, transparent, #1f243d, transparent);
+        }
+        
+        /* コース選択エリア */
+        .course-selector {
+            background-color: #0f111a;
+            padding: 20px;
+            border-radius: 2px;
+            margin-bottom: 30px;
+            border: 1px solid #2e3557;
+        }
+        .course-selector-title {
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            color: #b39247;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .course-options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .course-label {
+            cursor: pointer;
+            padding: 6px 12px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+        }
+        .course-label input {
+            margin-right: 8px;
+            accent-color: #b39247;
+        }
+        .course-label:hover {
+            color: #e6c673;
+        }
+
+        /* 占い実施エリア */
+        .action-area {
+            background-color: #0f111a;
+            padding: 25px;
+            border-radius: 2px;
+            margin-bottom: 30px;
+            border: 1px solid #2e3557;
+            text-align: left;
+        }
+        .action-title {
+            font-size: 13px;
+            color: #e6c673;
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        /* タロットカードの配置 */
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .tarot-card {
+            width: 80px;
+            height: 130px;
+            background-color: #1f243d;
+            border: 2px solid #3a426f;
+            border-radius: 4px;
+            color: #b39247;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .tarot-card:hover {
+            border-color: #b39247;
+            transform: translateY(-5px);
+            background-color: #252b4a;
+        }
+
+        /* 入力フォーム関係 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: #9aa2cb;
+            margin-bottom: 5px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background-color: #16192b;
+            border: 1px solid #3a426f;
+            color: #ffffff;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #b39247;
+        }
+        .checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            font-size: 11px;
+            color: #848da8;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        .checkbox-label input {
+            margin-right: 6px;
+            accent-color: #b39247;
+        }
+        .date-select-wrap {
+            display: flex;
+            gap: 10px;
+        }
+        .date-select-wrap select {
+            flex: 1;
+        }
+
+        /* 鑑定ボタン */
+        .fortune-btn-wrap {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .fortune-btn {
+            background-color: #b39247;
+            border: none;
+            color: #0f111a;
+            padding: 10px 40px;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            font-weight: bold;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .fortune-btn:hover {
+            background-color: #e6c673;
+        }
+        
+        /* 鑑定結果表示 */
+        .result-box {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #0f111a;
+            border-radius: 2px;
+            border-left: 3px solid #b39247;
+            display: none;
+            text-align: left;
+            animation: fadeIn 0.7s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-meta {
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            color: #b39247;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .result-title {
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 18px;
+            letter-spacing: 0.05em;
+        }
+        .result-comment {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+        }
+
+        /* 隠しメッセージ用の特別装飾枠 */
+        .special-message-block {
+            margin-top: 25px;
+            padding: 22px;
+            background-color: #111322;
+            border: 1px solid #60a5fa; /* 水色の境界線 */
+            border-left: 4px solid #7dd3fc; /* 左端アクセント */
+            border-radius: 2px;
+            color: #e2e8f0;
+            font-size: 13.5px;
+            line-height: 1.8;
+            text-align: left;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .special-message-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #e6c673;
+            margin-bottom: 12px;
+            letter-spacing: 0.1em;
+            border-bottom: 1px dashed #3a426f;
+            padding-bottom: 5px;
+        }
+
+/* シリアスモード時の画面明滅（バックヤード連動用） */
+
+.ominous-mode {
+    position: relative;
+    border-color: #b91c1c !important;
+    box-shadow:
+        0 0 12px rgba(185,28,28,0.35),
+        0 0 40px rgba(185,28,28,0.15);
+    animation: pulseOminous 4s infinite ease-in-out;
+}
+
+.ominous-mode::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(140,0,0,0.08),
+            transparent 70%
+        );
+    pointer-events: none;
+}
+
+@keyframes pulseOminous {
+    0%,100%{
+        background-color:#121214;
+        filter:brightness(1);
+    }
+
+    50%{
+        background-color:#180909;
+        filter:brightness(1.08);
+    }
+}
+
+        /* 鑑定室の奥へ進むためのシリアス誘導ボタン */
+        .gachi-trigger-btn {
+    display:block;
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+
+    background:#1a0707;
+    border:1px solid #b91c1c;
+
+    color:#fecaca;
+
+    cursor:pointer;
+
+    font-family:inherit;
+    font-size:13px;
+    letter-spacing:0.15em;
+
+    transition:all .4s ease;
+}
+
+.gachi-trigger-btn:hover {
+    background:#350808;
+
+    color:#fff;
+
+    box-shadow:
+        0 0 15px rgba(185,28,28,0.6),
+        0 0 30px rgba(185,28,28,0.3);
+}
+
+        /* シリアス霊視結果の専用表示枠 */
+        .gachi-result-block {
+    margin-top:25px;
+    padding:25px;
+
+    background:#090909;
+
+    border-left:4px solid #b91c1c;
+
+    color:#d6d3d1;
+
+    font-size:13.5px;
+    line-height:1.9;
+
+    animation:gachiAppear 1.6s ease forwards;
+
+    opacity:0;
+}
+
+@keyframes gachiAppear {
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+        /* 雲漢の日常 */
+        .backyard-widget {
+            margin-top: 40px;
+            background-color: #111424;
+            border: 1px dashed #3a426f;
+            border-radius: 2px;
+            padding: 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .backyard-widget:hover {
+            border-color: #b39247;
+            background-color: #14182c;
+        }
+        .backyard-content {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.7;
+            letter-spacing: 0.05em;
+        }
+        .backyard-hint {
+            font-size: 9px;
+            color: #475569;
+            text-align: right;
+            margin-top: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        /* SNS風一言枠 */
+        .sns-widget {
+            margin-top: 25px;
+            background-color: #111424;
+            border: 1px dashed #3a426f;
+            border-radius: 2px;
+            padding: 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sns-widget:hover {
+            border-color: #b39247;
+            background-color: #14182c;
+        }
+        .sns-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .sns-avatar {
+            width: 30px;
+            height: 30px;
+            background-color: #b39247;
+            border-radius: 2px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0f111a;
+            font-size: 13px;
+        }
+        .sns-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .sns-display-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+        }
+        .sns-username {
+            font-size: 10px;
+            color: #64748b;
+        }
+        .sns-content {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #94a3b8;
+            white-space: pre-wrap;
+        }
+        .sns-hint {
+            font-size: 9px;
+            color: #475569;
+            text-align: right;
+            margin-top: 8px;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>占い館・カフェ【雲漢】 - 総合鑑定室</title>
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', 'Hiragino Mincho ProN', 'MS 明朝', serif;
+            background-color: #0f111a;
+            color: #d1d5db;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 0;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #16192b;
+            padding: 45px 35px;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            border: 2px solid #b39247;
+            position: relative;
+        }
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid #2e3557;
+            pointer-events: none;
+        }
+        .shop-title {
+            font-size: 12px;
+            letter-spacing: 0.4em;
+            color: #b39247;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        h1 {
+            color: #e6c673;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 35px;
+            font-weight: normal;
+            letter-spacing: 0.2em;
+            border-bottom: 1px double #3a426f;
+            padding-bottom: 15px;
+        }
+        .profile-badge {
+            display: inline-block;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            background-color: #0f111a;
+            color: #9aa2cb;
+            padding: 4px 16px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            border: 1px solid #2e3557;
+        }
+        .dialogue-box {
+            font-size: 15px;
+            color: #f3f4f6;
+            margin-bottom: 35px;
+            min-height: 90px;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, transparent, #1f243d, transparent);
+        }
+        
+        /* コース選択エリア */
+        .course-selector {
+            background-color: #0f111a;
+            padding: 20px;
+            border-radius: 2px;
+            margin-bottom: 30px;
+            border: 1px solid #2e3557;
+        }
+        .course-selector-title {
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            color: #b39247;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .course-options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .course-label {
+            cursor: pointer;
+            padding: 6px 12px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+        }
+        .course-label input {
+            margin-right: 8px;
+            accent-color: #b39247;
+        }
+        .course-label:hover {
+            color: #e6c673;
+        }
+
+        /* 占い実施エリア */
+        .action-area {
+            background-color: #0f111a;
+            padding: 25px;
+            border-radius: 2px;
+            margin-bottom: 30px;
+            border: 1px solid #2e3557;
+            text-align: left;
+        }
+        .action-title {
+            font-size: 13px;
+            color: #e6c673;
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        /* タロットカードの配置 */
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .tarot-card {
+            width: 80px;
+            height: 130px;
+            background-color: #1f243d;
+            border: 2px solid #3a426f;
+            border-radius: 4px;
+            color: #b39247;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .tarot-card:hover {
+            border-color: #b39247;
+            transform: translateY(-5px);
+            background-color: #252b4a;
+        }
+
+        /* 入力フォーム関係 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: #9aa2cb;
+            margin-bottom: 5px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background-color: #16192b;
+            border: 1px solid #3a426f;
+            color: #ffffff;
+            border-radius: 2px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #b39247;
+        }
+        .checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            font-size: 11px;
+            color: #848da8;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        .checkbox-label input {
+            margin-right: 6px;
+            accent-color: #b39247;
+        }
+        .date-select-wrap {
+            display: flex;
+            gap: 10px;
+        }
+        .date-select-wrap select {
+            flex: 1;
+        }
+
+        /* 鑑定ボタン */
+        .fortune-btn-wrap {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .fortune-btn {
+            background-color: #b39247;
+            border: none;
+            color: #0f111a;
+            padding: 10px 40px;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            font-weight: bold;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .fortune-btn:hover {
+            background-color: #e6c673;
+        }
+        
+        /* 鑑定結果表示 */
+        .result-box {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #0f111a;
+            border-radius: 2px;
+            border-left: 3px solid #b39247;
+            display: none;
+            text-align: left;
+            animation: fadeIn 0.7s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-meta {
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            color: #b39247;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .result-title {
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 18px;
+            letter-spacing: 0.05em;
+        }
+        .result-comment {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #cbd5e1;
+            white-space: pre-wrap;
+        }
+
+        /* 隠しメッセージ用の特別装飾枠 */
+        .special-message-block {
+            margin-top: 25px;
+            padding: 22px;
+            background-color: #111322;
+            border: 1px solid #60a5fa;
+            border-left: 4px solid #7dd3fc;
+            border-radius: 2px;
+            color: #e2e8f0;
+            font-size: 13.5px;
+            line-height: 1.8;
+            text-align: left;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .special-message-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #e6c673;
+            margin-bottom: 12px;
+            letter-spacing: 0.1em;
+            border-bottom: 1px dashed #3a426f;
+            padding-bottom: 5px;
+        }
+
+        /* シリアスモード時の画面明滅 */
+        .ominous-mode {
+            position: relative;
+            border-color: #b91c1c !important;
+            box-shadow:
+                0 0 12px rgba(185,28,28,0.35),
+                0 0 40px rgba(185,28,28,0.15);
+            animation: pulseOminous 4s infinite ease-in-out;
+        }
+        .ominous-mode::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(140,0,0,0.08), transparent 70%);
+            pointer-events: none;
+        }
+        @keyframes pulseOminous {
+            0%,100%{ background-color:#121214; filter:brightness(1); }
+            50%{ background-color:#180909; filter:brightness(1.08); }
+        }
+
+        /* 鑑定室の奥へ進むためのシリアス誘導ボタン */
+        .gachi-trigger-btn {
+            display:block;
+            width:100%;
+            margin-top:20px;
+            padding:12px;
+            background:#1a0707;
+            border:1px solid #b91c1c;
+            color:#fecaca;
+            cursor:pointer;
+            font-family:inherit;
+            font-size:13px;
+            letter-spacing:0.15em;
+            transition:all .4s ease;
+        }
+        .gachi-trigger-btn:hover {
+            background:#350808;
+            color:#fff;
+            box-shadow: 0 0 15px rgba(185,28,28,0.6), 0 0 30px rgba(185,28,28,0.3);
+        }
+
+        /* 雲漢の日常 */
+        .backyard-widget {
+            margin-top: 40px;
+            background-color: #111424;
+            border: 1px dashed #3a426f;
+            border-radius: 2px;
+            padding: 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .backyard-widget:hover {
+            border-color: #b39247;
+            background-color: #14182c;
+        }
+        .backyard-content {
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.7;
+            letter-spacing: 0.05em;
+        }
+        .backyard-hint {
+            font-size: 9px;
+            color: #475569;
+            text-align: right;
+            margin-top: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        /* SNS風一言枠 */
+        .sns-widget {
+            margin-top: 25px;
+            background-color: #111424;
+            border: 1px dashed #3a426f;
+            border-radius: 2px;
+            padding: 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sns-widget:hover {
+            border-color: #b39247;
+            background-color: #14182c;
+        }
+        .sns-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .sns-avatar {
+            width: 30px;
+            height: 30px;
+            background-color: #b39247;
+            border-radius: 2px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0f111a;
+            font-size: 13px;
+        }
+        .sns-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .sns-display-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+        }
+        .sns-username {
+            font-size: 10px;
+            color: #64748b;
+        }
+        .sns-content {
+            font-size: 12px;
+            line-height: 1.6;
+            color: #94a3b8;
+            white-space: pre-wrap;
+        }
+        .sns-hint {
+            font-size: 9px;
+            color: #475569;
+            text-align: right;
+            margin-top: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        /* 暗転用オーバーレイ */
+        #omen-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+            transition: opacity 1.2s ease;
+        }
+        .gachi-result-block {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid #818cf8;
+            border-radius: 4px;
+            color: #d6d3d1;
+            font-size: 13.5px;
+            line-height: 1.9;
+            animation: gachiAppear 1.6s ease forwards;
+            opacity: 0;
+        }
+        @keyframes gachiAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="shop-title">占術庵</div>
+    <h1>雲漢 ─ 鑑定室</h1>
+     
+    <div class="character-area">
+        <div class="profile-badge">庵主：龙 云海 (Long Yunhai)</div>
+        <div class="dialogue-box" id="yunhai-dialogue">
+            「ようこそ、雲漢へ。……占いは、“当てもの”じゃない。人が自分の人生を見つめ直す、一つのきっかけだ。貴方はどんな言葉を求めてここへ来ましたか？」
+        </div>
+    </div>
+
+    <div class="course-selector">
+        <div class="course-selector-title">【 鑑定コースをお選びください 】</div>
+        <div class="course-options">
+            <label class="course-label">
+                <input type="radio" name="course" value="casual" checked onclick="switchCourse()"> 日常の指標
+            </label>
+            <label class="course-label">
+                <input type="radio" name="course" value="jikkuri" onclick="switchCourse()"> 宿命の紐解き
+            </label>
+            <label class="course-label">
+                <input type="radio" name="course" value="name" onclick="switchCourse()"> 姓名の響き
+            </label>
+        </div>
+    </div>
+
+    <div class="action-area" id="area-casual">
+        <div class="action-title">気（き）を落ち着かせ、並んだ三枚の札から直感で一枚お選びください</div>
+        <div class="card-container">
+            <div class="tarot-card" onclick="selectTarot(1)">【 一 】</div>
+            <div class="tarot-card" onclick="selectTarot(2)">【 二 】</div>
+            <div class="tarot-card" onclick="selectTarot(3)">【 三 】</div>
+        </div>
+    </div>
+
+    <div class="action-area" id="area-jikkuri" style="display: none;">
+        <div class="action-title">生年月日を選択してください（四柱推命の盤面を広げます）</div>
+         
+        <div id="full-date-group" class="form-group">
+            <label class="form-label">生年月日</label>
+            <input type="date" id="birth-input" class="form-input" value="2000-01-01">
+        </div>
+
+        <div id="md-date-group" class="form-group" style="display: none;">
+            <label class="form-label">生まれた月日</label>
+            <div class="date-select-wrap">
+                <select id="birth-month" class="form-input" onchange="adjustDays()">
+                </select>
+                <select id="birth-day" class="form-input">
+                </select>
+            </div>
+        </div>
+
+        <label class="checkbox-label">
+            <input type="checkbox" id="no-year-check" onchange="toggleYearInput()"> ※生まれ年が不明な場合（月日のみで鑑定）
+        </label>
+
+        <div class="fortune-btn-wrap">
+            <button class="fortune-btn" onclick="runFourPillars()">貴方の理を視る</button>
+        </div>
+    </div>
+
+    <div class="action-area" id="area-name" style="display: none;">
+        <div class="action-title">お名前をフルネーム（または識別する名）で入力してください</div>
+        <div class="form-group">
+            <input type="text" id="name-input" class="form-input" placeholder="例：龙云海">
+        </div>
+        <div class="fortune-btn-wrap">
+            <button class="fortune-btn" onclick="runNameFortune()">五行の傾きを測る</button>
+        </div>
+    </div>
+
+    <div class="result-box" id="result-area">
+        <div class="result-meta" id="result-course-type">◆ 鑑定結果</div>
+        <div class="result-title" id="result-title"></div>
+        <div class="result-comment" id="result-comment"></div>
+        <div id="special-message-container"></div>
+    </div>
+
+    <div class="backyard-widget" onclick="changeBackyard()">
+        <div class="backyard-content" id="backyard-text">
+            （ここに庵の様子が表示されます）
+        </div>
+        <div class="backyard-hint">※触れると新たな気配に切り替わります</div>
+    </div>
+
+    <div class="sns-widget" onclick="changeSNS()">
+        <div class="sns-header">
+            <div class="sns-avatar">雲</div>
+            <div class="sns-user-info">
+                <span class="sns-display-name">龙 云海＠雲漢</span>
+                <span class="sns-username">@yunhai_unkan</span>
+            </div>
+        </div>
+        <div class="sns-content" id="sns-text">
+            （ここに書付が表示されます）
+        </div>
+        <div class="sns-hint">※触れると新たな書き置きに切り替わります</div>
+    </div>
+</div>
+
+<div id="omen-overlay"></div>
+
+<script>
+    // タロットカードデータ
+    const tarotCards = [
+        { name: "「魔術師」のカード", meaning: "新しい一歩、選択の始まり", text: "「『魔術師』のカードが出ました。人の未来は予言ではなく、選択の積み重ねで変わるものです。今の貴方には、新しい何かを始めるだけの力が揃っています。恐れずに選ぶとよいですよ」" },
+        { name: "「隠者」のカード", meaning: "内省、静かなる自己認識", text: "「『隠者』が視えました。今は外へ向かって動く時ではないですね。過去は無知で、未来は秘密主義です……。まずは静かに、自分自身の心と対話する時間を作ってみてください」" },
+        { name: "「星」のカード", meaning: "希望の光、守護の気配", text: "「『星』のカードだ。貴方の進む道に、静かな灯りが灯っています。……貴方のことを大切に想っている優しい存在が、貴方が自分を追い込みすぎないよう見守ってくれていますよ」" },
+        { name: "「月」のカード", meaning: "不安、霧のなかの休息", text: "「『月』が出ましたね。先が見えず、少し不安が募っているのかもしれない。だからこそ、今は無理をせず、温かい甘味でも食べて、霧が晴れるのを待ちましょう」" },
+        { name: "「愚者」のカード", meaning: "自由、純粋な可能性", text: "「『愚者』のカードですね。型にはまる必要はない、もっと自由でいいんだとカードが告げています。周囲の目や常識という足枷を外して、心が惹かれる方へ一歩を踏み出す時ですよ」" },
+        { name: "「女帝」のカード", meaning: "豊かさ、満たされる心", text: "「『女帝』が微笑んでいます。これまで貴方が注いできた愛情や努力が、まもなく豊かな実りとなって返ってくる兆しです。今は与えることよりも、受け取ることを自分に許してあげてください」" },
+        { name: "「正義」のカード", meaning: "均衡、誠実な決断", text: "「『正義』のカードが出ました。感情に流されず、冷静な目でバランスを見極めるべき時のようです。何が正しいかではなく、貴方が誠実であれる選択肢を選べば、自ずと道は整います」" },
+        { name: "「運命の輪」のカード", meaning: "好転、予期せぬ好機", text: "「おや、『運命の輪』が回り始めました。物事の流れが大きく変わる、良い波がすぐそこまで来ています。迷っている時間はないかもしれない。直感を信じて、その波に飛び乗ってみるとよいですよ」" },
+        { name: "「審判」のカード", meaning: "復活、過去の救い", text: "「『審判』が響いています。過去に諦めてしまったことや、心の奥底に眠っていた想いが再び息を吹き返す時です。今の貴方なら、あの時とは違う結末を選び取ることができますよ」" },
+        { name: "「世界」のカード", meaning: "完成、調和に満ちた調停", text: "「『世界』のカードを引かれましたね。一つの大きなサイクルが美しく調和し、完成を迎える暗示です。貴方が今向き合っている事柄は、然るべき理想の形で収まるはずですから、安心してください」" }
+    ];
+
+    // 十干（四柱推命）データ
+    const elements = [
+        { name: "甲（きのえ）─ 大樹の気質", text: "「貴方は『甲』……まっすぐ伸びる大樹の気を持って生まれた人ですね。本来は強い芯を持っていますが、今は少し周囲の風が強くて幹が揺れているようだ。自分のルーツを信じて、深く根を張る意識を持つと道が開けますよ」" },
+        { name: "乙（きのと）─ 蔓草の気質", text: "「貴方は『乙』……しなやかに絡む蔓草や、可憐な草花の気質です。一見控えめに見えますが、どんな環境にも適応して生き抜く強固な粘り強さを持っています。一人で抱え込まず、信頼できる誰かを頼り、協力し合うことで輝きが増しますよ」" },
+        { name: "丙（ひのえ）─ 太陽の気質", text: "「貴方の本質は『丙』……周囲を照らす太陽の光です。ですが、少し雲がかかって元気を失っているように見える。他人のトラブルまで自分のことのように抱え込んでいませんか？ まずは自分自身を暖める選択をしてください」" },
+        { name: "丁（ひのと）─ 灯火の気質", text: "「貴方は『丁』……闇夜を静かに照らす灯火の気を持っていますね。思慮深く、内面に熱い情熱と思思想を秘めている人です。周囲の空気を察して自分をすり減らしがちですが、貴方のその繊細な光を必要としている人が必ずいますよ」" },
+        { name: "戊（つちのえ）─ 峻険なる山の気質", text: "「貴方は『戊』……どっしりとした山の気質ですね。おおらかで落ち着いた魅力がありますが、一度溜め込んだ悩みは、なかなか外に出せない性質だ。たまには誰かに甘えて、胸の内のごちゃごちゃを吐き出してもいいんですよ」" },
+        { name: "己（つちのと）─ 大地の気質", text: "「貴方の宿命は『己』……多くの命を育む、優しく豊かな田園の大地です。面倒見がよく、他人の成長を我がことのように喜べる気配りの人ですね。ただ、他人に栄養を与えすぎて自分が干からびてしまわないよう、休息を忘れないでください」" },
+        { name: "庚（かのえ）─ 刀剣の気質", text: "「貴方は『庚』……頑強で鋭い、鍛えられた刀剣の気質を持っています。意思が強く、逆境であるほど己を研ぎ澄まして突き進む力がある。白黒つけたい性質ですが、時には刃を鞘に収め、物事を曖昧なまま置いておく心の余白も大切ですよ」" },
+        { name: "辛（かのと）─ 宝石の気質", text: "「貴方の本質は『辛』……砂の中に眠る原石、あるいは繊細な輝きを放つ宝石です。プライドが高く傷つきやすい一面もありますが、試練を乗り越えるたびに魅力が磨かれていきます。自分を安売りせず、独自の美学を貫いてくださいね」" },
+        { name: "壬（みずのえ）─ 大河の気質", text: "「貴方は『壬』……滔々と流れる大河、あるいは広大な海の気を持っています。束縛を嫌い、常に流動的な環境を好む、スケールの大きな自由人です。時に感情の激流に呑まれそうになりますが、知性と柔軟さでどんな壁も受け流せますよ」" },
+        { name: "癸（みずのと）─ 恵みの雨の気質", text: "「貴方の宿命の核は『癸』……静かに大地を潤す雨の気です。感受性が非常に強く、他人のオーラや氣を敏感に察知してしまう。人の多い場所で疲れやすいのはそのせいですね。静かな空間で、心を丁寧にほぐす時間を大切に」" }
+    ];
+
+    // 名前占い（五行バランス）データ
+    const nameFortunes = [
+        { type: "【木（もく）】の気が旺盛 ─ 青々と茂る生命の理", text: "「名前の響きを数律に直してみると、貴方は『木』の気が非常に強い。成長欲求が高く、常に何かを表現したいという進取の気性に満ちていますね。ただ、気が昂りすぎると独りよがりな頑固さになってしまう。時には丝霞の淹れるような、少し渋みのあるお茶を飲んで、風を落ち着かせると良いでしょう」" },
+        { type: "【木（もく）】の気が不足 ─ 芽吹きを待つ静寂の理", text: "「貴方の名の構成は、少し『木』の気が控えめなようだ。優しく調和を重んじる性質ですが、時に決断を他人に委ね、流されてしまう脆さがある。自らの意志で一本の木を植えるように、小さな目的を日々完遂していくことで、内なる生気が太く育っていきますよ」" },
+        { type: "【火（か）】の気が旺盛 ─ 燃え盛る情熱と直感の理", text: "「おや、貴方の名からは非常に熱い『火』の気が溢れ出ています。直感力に優れ、これと決めたものへ一気に飛び込む瞬発力があります。しかし、燃え尽きるのもまた早い性質だ。感情の浮沈に心身をすり減らさぬよう、夜は電子の板（スマホ）を閉じ、沈むように眠る安息の刻を意識してください」" },
+        { type: "【火（か）】の気が不足 ─ 静かに灯る残り火の理", text: "「貴方の名に含まれる『火』の気は穏やか、あるいは少し不足していますね。感情の起伏が少なく冷静沈着ですが、他者への関心が薄くなったり、物事を諦めやすくなったりする傾向があります。温かいスープなど、物理的に『熱』を感じるものを体に取り入れて、内なる灯火を絶やさぬようお過ごしください」" },
+        { type: "【土（ど）】の気が旺盛 ─ 万物を受け入れる包容の理", text: "「貴方の名には、万物を育むどっしりとした『土』の気が満ちています。周囲に安心感を与える包容力があり、相談役に選ばれやすいはず。ですが、他人の負の氣まで吸い込みすぎて、胸の底が泥濘になっていませんか？ 草花でも眺めながら、自分だけの境界線をしっかり保ってくださいね」" },
+        { type: "【土（ど）】の気が不足 ─ 浮遊する砂塵の理", text: "「貴方の名は、やや『土』の気が薄い配置のようだ。フットワークが軽く自由ですが、ひとつの場所に留まることや、泥臭い継続が少し苦手かもしれないですね。日々のルーティンを一つ固定するか、身の回りに陶器や石の置物を置いて、大地との繋がりを意識すると精神の軸が安定します」" },
+        { type: "【金（こん）】の気が旺盛 ─ 研ぎ澄まされた鋭利な意思の理", text: "「貴方の名には、非常に硬質で鋭い『金』の気が宿っています。自律心が強く、自らの美学や正義を貫く強さがある。ただし、その刃が鋭すぎて、無意識に自分や身近な者を傷つけてしまうことがあるね。白黒つけられぬ曖昧な物事も、それは時点で美しいのだと受け流す余裕を持つことが大切です」" },
+        { type: "【金（こん）】の気が不足 ─ 磨かれざる原石の理", text: "「貴方の名が持つ『金』の気は、少し眠っている状態のようです。情に厚く優しい反面、他人の意見に左右されて自分を見失いやすい。貴方はもっと、自分自身の価値を誇ってよいのですよ。嫌なものにははっきりと『否』を突きつける、そんな凛とした強さを育てていきましょう」" },
+        { type: "【水（すい）】の気が旺盛 ─ どこまでも広がる知性と循環の理", text: "「貴方の名からは、深く絶え間ない『水』の気の流れを感じます。知性的好奇心が旺盛で、物事の本質を見抜く聡明さを持った人だ。ただ、水は器に合わせて形を変えるもの。周囲の環境が悪いと、貴方の心まで濁ってしまいます。付き合う人間や置かれる場所は、妥協せずに選んでくださいね」" },
+        { type: "【水（すい）】の気が不足 ─ 乾きを求める渇望の理", text: "「貴方の名は、やや『水』の気が潤沢とは言えないようです。思考が現実的で合理的ですが、時に心の潤いを忘れ、他者に対して無味乾燥な態度をとってしまうことがあるかもしれない。美しい物語に触れる、あるいは純粋に上質な水をたっぷり飲むことで、感情の干からびを防ぎましょう」" }
+    ];
+
+    // 特殊キャラクターデータ
+    const specialCharacters = {
+        "花厳旺介": {
+            fixedIndex: 6,
+            dialogue: "「おや……貴方は、随分と業の深い名の響きだ。ふふ、面白い」",
+            message: `「……ふむ、硬質で冷ややかな意思と、鮮やかな気が混ざり合っている。小さな頃から人の汚濁を近くで見る環境にいたようですね。洞察と味覚の鋭さが名から立ち上っています。<br><br>貴方の纏う空気には、弱者や敵を切り捨てる冷徹さがある反面、自らの境界線を絶対に崩さない極めて強固な自律心が見える。<br><br>貴方の周りには、賑やかなご友人の気配も視える。うんざりしながらも、その刺激を一番愉しんでいるのは貴方自身のはず。…それから、貴方に信頼を寄せている小さな家族。それらが、貴方の渇きをこの世に繋ぎ止めている。<br><br>性の悪さを自覚し、すべてを愉悦の肴として消費し尽くそうとするのは、悪いこととは言いませんが…あまり毒を飲んで身を崩されませんようお気をつけて。」`
+        },
+        "宇帖貴将": {
+            fixedIndex: 8,
+            dialogue: "「これはまた…貴方は随分と底の見えない、愉快な『仮面』を被ったお人ですね」",
+            message: `「……ふふ、無邪気な野次馬のように振る舞ってはいるが、その内側には決して侮れるものではない理知がありますね。<br><br>貴方の名前から立ち上る気質は、自由を愛する猫のようでありながら、その実、極めて明晰な統率力を隠し持っている。育ちも整っている。多くの人を率いることができる、経営者の人に多い気です。<br><br>それに貴方は……随分と甘え上手なようだ。その無邪気な振る舞いに周囲は毒気を抜かれているのでしょうが……他人の困る姿を眺めるのを好む性悪さがありますね？一方で、自身の身内と定めた者への危害は一切容赦しない。<br><br>睡眠時間をあまり取れていないのではありませんか？冬の寝起きもあまり良くなさそうですね。お忙しいでしょうが、休める日はあまり夜更かしをしないようにしてくださいね。」`
+        },
+        "瀬崎一真": {
+            fixedIndex: 6,
+            dialogue: "「……なるほど。随分と硬質な『弾丸』を隠したお人ですね」",
+            message: `「貴方の名に宿る響きは極めて硬質で鋭く、自らを厳しく律する強固な『金』の気が満ちていますね。白黒を明確につけ、周りを冷徹見据える刃のようなお人だ。<br><br>身体中に跡がありますね…有事の修羅場を潜り抜けてきたことが、貴方の纏う空気から透けて視えます。時に冷徹な手段を選ばない覚悟を持ちながら、貴方の根底には、善なる者を守るためなら己を犠牲にしても構わないという、非常に暖かく、しかし危うい慈悲が眠っている。<br><br>……ふむ。思考が深いゆえに口数は少ないが、内心では随分と賑やかに思考を巡らせていますね。<br><br>貴方の周囲には、貴方より随分と食の旺盛な健やかな気配と……それから、明るい夏の日差しのような気配が視える。この方とは過去に遠い場所でもご縁があるようですね。守るべき人と、信頼に足る背中があるからこそ、貴方の刃は折れずに研ぎ澄まされていられるのでしょう。<br><br>…おや、手に少し…陰りが視えますね。指のマッサージなどで血行を良くするように意識して過ごすとより健やかに過ごせるでしょう。そうだ、昨日、弟がアップルパイを焼いて庵に持ってきてくれたんです。このあとカフェスペースで休まれるようでしたら切り分けてお持ちしますが、いかがですか？温かい紅茶に合いますよ。」`
+        },
+        "向坂湊": {
+            fixedIndex: 4,
+            dialogue: "「おや……貴方は、春の陽だまりのような暖かさと、どこまでも深い大地の包容力を宿した名の響きですね」",
+            message: `「……ふむ、実に見事な『土』の気だ。周囲の人間に絶対的な安心感を与える、誠実で温厚な人徳が名から溢れ出ています。多くの命を育み、誰をも拒まず受け入れる肥沃な大地……なるほど、貴方の周りに縁が集まるのも、この気の豊かさゆえでしょう。<br><br>ですが、貴方が身を置いているのは、時に暗く、冷徹な現場のようですね。高い教養を持ち、信念をもってその生き方を選んだ。その根底にあるのは、揺るぎない正義感と、大切なものを守り抜くという強固な忠誠心でしょうか。遠い地に、貴方の心の座標となる大切な存在が視えます。離れていても、その純粋な愛情が貴方の足元を支える何よりの土台になっている。その方とのご縁をこれからもどうぞ大切になさってください。<br><br>……それにしても、貴方の胃腸の気は少々……いえ、異常なほどに頑強ですね？<br><span style="opacity: 0.5; display: block;">……丝霞の料理ですら、君なら笑って平らげてしまいそうだ。</span><br><br>ふふ…いえ、本当に素晴らしく健康な身体です。どこでも深く眠れることは素晴らしいですが、おかしな姿勢で寝て首を痛めないように。」`
+        },
+        "飯綱帳": {
+            fixedIndex: 1,
+            dialogue: "「随分と綺麗に整えられた、けれど……ひどく色褪せた気配を纏う人が来ましたね」",
+            message: `「……ふむ。周囲の空気を読み、万人に対して調和をもたらす、非常に聡明で優しい人なのですね。誰からも慕われ、頼られる。……ですがその内側は、他人に消費され、磨り減り、泥を溜め込んでいる。<br><br>貴方の名の響きには、植物的な温かみがある反面、過去の虚りに寄り添って時間を止めてしまっているような停滞を感じる。……かつての大切なご友人の影がずっと後ろに寄り添っている。<br><br>夜もあまり眠れていないのでしょう？ 隈が痛々しい。過去の傷や罪悪感に縛られ、自分だけが停滞したまま生きるのは、少しばかり寂しいものですよ。<br><br>貴方の周りには、放っておけない危うさを持ったお嬢さんや、貴方の体調を本気で案じておられるご家族の温かい灯火も視える。<br><br>あまりご自分を『誰かのための身代わり』として扱わないでください。貴方が倒れてしまっては、元も子もありませんから。」`
+        },
+        "瀬崎茜": {
+            fixedIndex: 0,
+            dialogue: "「……鋭さと、どこか大らかな温かさが同居した、不思議な響きを持つ名ですね」",
+            message: `「……なるほど。その名の響きからは、幼い頃に厳しい冬を経験しながらも、大地に深く根を張り、まっすぐに伸びようとする非常に強かな生気が伝わってきます。<br><br>周囲からは少々克己的な印象を持たれがちでしょう。実際、自立心が強く、精神の体幹が非常に座っている。ですがその本質は、決して冷徹ではない。むしろ、目の前にある幸福や恵みを、これ以上ないほど素直に、美味しく噛み締めることができる。そんな豊かな生命力の健やかな調和が視えます。<br><br>貴方の後ろには、貴方を大切に育て、その成長を何よりも見守ってきた年長者の……そう、少し不器用ながらも深い愛情を持った温かい気配が寄り添っている。甘えてばかりではいられないという健気な責任感も見え隠れしていますが……あまり背伸びをしすぎる必要はありませんよ。<br><br>貴方が健やかであることがその方にとっての最大の救いであり、恩返しになっているのですから。」`
+        },
+        "山岸響人": {
+            fixedIndex: 7,
+            dialogue: "「……こんにちは。随分と眉間に深い皺を寄せている方が来ましたね。ゆっくり過ごしてください」",
+            message: `「……ふむ。名に含まれる響きはとても硬質で、本来は己の美学を真っ直ぐに貫く刃（やいば）の気質を持っている。ですが貴方の刃は、少し錆びつかせて鞘の奥にしまい込んでしまっているようだ。<br><br>……ええ、この場ではそうして冷めた笑いを浮かべて、煙に巻こうとしなくても大丈夫ですよ。貴方のその、すべてを諦めたような態度の裏側には、人一倍強くて繊細な『純粋さ』が視える。<br><br>今は流行り事にあまり乗れないのですね。私も世間のことには疎いのでわかりますよ。貴方の場合はそれだけ『本物』への敬意と、鋭い感受性を持っている証拠です。ただ『本当の自分をわかってほしい』という渇望の裏返しでしょう。<br><br>…… 玄関に溜まった鮮やかな封筒が貴方を締め付けていますね。目をそらして一服も結構ですが、身体がずいぶんと細り、悲鳴を上げている。<br><br>静かに己を労いつつ、すこしずつ勇気を持って取り組んでください。」`
+        },
+        "檀田恭二郎": {
+            fixedIndex: 8,
+            dialogue: "「……ほう。冷徹なまでの知性と、冷たい熱を孕んだ気。これはまた、ひどく刺激的な響きを持った名ですね」",
+            message: `「……ふむ。底の知れない深い水底に、自ら毒を求めて愉しんでいるような、危うい均衡が名から立ち上っています。<br><br>貴方の名は極めて高い知性と、万物を見透かすような鋭い観察眼を内包している。他人の心理の綻びを見つけては、意のままに操る能力を若くして自覚していたのでしょう。ですが、その冷徹さや傲慢なまでのプライドの裏に、潔癖さと身内への情が濁りなく同居している。これが貴方の美学の形ですね。<br><br>周囲からは時折面倒事を押し付けられているようですが……ふふ、文句を言いつつも結局は引き受け、世話を焼いてしまう。貴方の持つ本質的な『優しさ』に、魂の救いを見出している者が、貴方の近くに確かに存在していますよ。<br><br>貴方は、冷たさを選ぶときも相手を無視しない、誠実な人なのですね」`
+        },
+        "提嶋海牙": {
+            fixedIndex: 0,
+            dialogue: "「…眩しいほどの陽の気を纏いながら、その足元にはひどく冷たい影を引きずっている。面白い名の響きですね」",
+            message: `「……いや、驚いた。名前の奥から、青々と力強く茂る大樹の生命力と、すべてを焼き尽くしそうなほどの真っ直ぐな反骨の気が溢れ出ている。<br><br>貴方は随分と、偽善や濁った、いわゆる大人の都合というものを嫌うお人のようだ。幼い頃、理不尽な嵐に揉まれ、泥を這うような場所で生きることを強いられてきたかもしれないね。だが貴方は、自らの芯を決して腐らせなかった。貴方の本質は他人の痛みに誰よりも聡く、信じた人を絶対に裏切らない、極めて強固な『境界線』を持っている。<br><br>……ふふ、面白い歩き方をする。大切な人を、自分の『右側』に置く癖があるのでしょう？それは貴方の無意識の信頼の証であり、防衛の陣形だ。<br><br>貴方の本音を無理に暴こうとはしませんが、貴方のその濁りのない五行の傾きは、周囲の人間に確かな救いを与えていますよ。」`
+        },
+        "立花ルーメ": {
+            fixedIndex: 3,
+            dialogue: "「……風に揺れる花のような、どこか実体の掴めない、美しい名の響きですね」",
+            message: `「……笑みの中に本心を隠そうとはしているけれど、あまり嘘をつくことが得意でない質（たち）とお見受けしました。<br><br>他人に境界線を越えられることを嫌い、表面的な理解を何より嫌悪する冷ややかさがある一方で……その心の奥底には、幼い頃からずっと変わらない、寂しがり屋な本質が視える。答えの出ない問いを、今も胸の暗がりに仕舞い込んでいるのでしょう。<br><br>貴方の周りには、貴方のその『触れられたくない暗がり』を、ただ静かに、何も言わずに肯定して並び立つ存在が視える。とても愉快なご友人の気が視えます。貴方は彼らや今の仕事をとても大切に想っていますね。今の立ち位置を引き寄せたのは貴方の徳の一部でしょう。それらを信頼し、繋がりに身を委ねられているなら、それはとても幸福なことです。<br><br>それと……ふふ、面白いね。全体を包む運気の糸が、妙なところで細かく跳ねている。日常のほんの些細な巡り合わせで、不思議と『嬉しいおまけ』を引くような強い直感と運の細波が視えるよ。<br><br>貴方自身の人生の幕は、貴方だけのために上がっている。あまり一人で考え込み、内側を乾かしてしまわないように過ごしてくださいね。」`,
+            hasGachi: true,
+            gachiButtonText: "── 庵主が引き留める気配を感じる",
+            gachiDialogue: "「……待ってください。五行の理はここまでですが……貴方の背後に、ひどく歪んだ『悪意の影』が視える。予言ではなく、現在進行形の明確な思念だ」",
+            gachiResult: `……非常に冷酷で、独善的な縁だ。貴方が全く知らない、しかし貴方と地続きの異国の古い怨嗟が視える。\n\n
+すまない……脅すつもりは決して…ないんだ。ただ…どうしても無視できないほど、はっきりと感じてしまって。\n\n……予言ではない。これは現在、どこか遠い場所で貴方への歪んだ思念を抱き、それを具体的な計画として煮詰めている人間の強い思念です。貴方が光を浴びるその瞬間を、闇の底から引きずり下ろそうと狙っている者がいる。\n\n……明確な時期や結末までは、私の目でも視ることはできません。未来は選択の積み重ねで変わるものだからです。だからこそ、今これをお伝えしました。\n\n
+貴方が多くの人の注目にあるとき、どうか十分に注意をしてください。その悪意の波に呑まれぬよう、貴方の境界線の内側にいる大切な人たちを、頑なにならずに頼ってください。\n\n彼らはきっと、君を闇の底へ落とさないための、確かな錨になってくれるはずだ。`
+        }
+    };
+
+    // 雲漢の気配
+    const backyardStories = [
+        "【雲漢の気配】カフェスペースの子供椅子に、何故か巨大なパンダのぬいぐるみが店員のように鎮座している…。",
+        "【雲漢の気配】「勾玉10個のはずが100個届くなんて…！」奥から丝霞の怒った声と、云海が縮こまっている気配がする。",
+        "【雲漢の気配】カウンターに、底に溶けきらない砂糖がジャリジャリに溜まった云海さんの珈琲カップが置かれている。",
+        "【雲漢の気配】カフェスペースを占領している巨大な龍の抱き枕。可愛いと思って買ったにしてはサイズが大きすぎるようだ。",
+        "【雲漢の気配】丝霞さんがいない時間帯のようだ。デカぬい達が『お飲み物はセルフサービスです』のプレートを首から下げている。",
+        "【雲漢の気配】「通販の箱がまた5箱も……」丝霞さんが頭を抱えながら、怪しげな中国結びのタペストリーを検品している。",
+        "【雲漢の気配】厨房からガタゴトと物音がする。「おや、ハサミはどこへ行ったかな」「云海、お前の右手に持っているものはハサミではないのか？」という会話が聞こえた。",
+        "【雲漢の気配】カウンターの隅に、やたらと達筆な字で『領収書は必ず丝霞に渡すこと』と書かれた貼り紙が直筆で残されている。",
+        "【雲漢の気配】奥のスタッフルームから、スマホの操作に苦戦する云海さんの「あ、画面が消えた……丝霞、助けて」という微かな声がする。",
+        "【雲漢の気配】カフェの豆を計量中、云海さんが一粒落としてしまい、丝霞さんと二人で机の下を真剣に覗き込んでいる。",
+        "【雲漢の気配】棚の特等席に飾られた新しいぬいぐるみの値札が付いたままだ。丝霞さんに見つかる前に云海さんが隠そうと必死な様子。",
+        "【雲漢の気配】カウンターの奥で、云海さんが『現代の若者言葉』と書かれた謎のメモ帳を真剣な顔で熟読している…。",
+        "【雲漢の気配】カフェスペースで、巨大な龍の抱き枕とパンダのぬいぐるみが、まるで深刻な会議でもしているかのように向かい合わせに配置されている。",
+        "【雲漢の気配】販売棚の隅に、丝霞さんが作った天然石の新作アクセサリーが並べられている。ポップには『プレゼントにもどうぞ！』と手書きされている。",
+        "【突発的な気配】彩云さんが妙に肩を重そうにして帰ってきた。連れてきてしまったらしい。云海さんがため息をつきながら彼の後ろに手をかざすと、一瞬、店内の照明がバチバチと明滅した。",
+        "【突発的な気配】チリン、と冷たい音がして、入ってきた客の足元が濡れている。外は晴れているはずなのに。云海さんが『丝霞、表の札を下げて。……この方で本日の鑑定は最後になるから』と静かに告げた。"
+    ];
+
+    // SNS投稿データ
+    const snsPosts = [
+        "本日も ＃雲漢 ＃開店 しております ＃よろしくお願いいたします ＃お気をつけて ＃お越しくださいませ",
+        "丝霞に ＃写真 の載せ方を ＃教わりました 試しに＃ぬいぐるみ を ＃撮影 します（※画像は添付されていない）",
+        "＃ハッシュタグ というものは ＃文章 の合間に ＃挟む ものだと ＃聞きました ＃難しい ですね ＃さようなら",
+        "椅子の ＃発注 を ＃間違えました 丝霞に ＃とても ＃怒られました ＃反省 ＃しています",
+        "＃パソコン の ＃画面 が ＃真っ暗 に ＃なりました ＃壊れて ＃しまったの ＃でしょうか ＃丝霞 ＃助けて",
+        "丝霞が ＃お茶 を ＃淹れて ＃くれました ＃心が ＃落ち着き ＃ます ",
+        "＃新しい ＃ぬいぐるみ が ＃届き ＃ました ＃とても ＃大きい です ＃名前 は ＃まだ ＃ありません",
+        "＃天気 が ＃良い ですね  ＃皆様 も ＃良い ＃一日 を",
+        "＃美味しい ＃珈琲 の ＃淹れ方 を ＃彩云が ＃教えて ＃くれました ＃砂糖 は ＃三杯 ＃入れました ＃甘い ＃です",
+        "＃丝霞 が ＃私の ＃アカウント を ＃見て ＃深いため息 を ＃ついて ＃いました ＃なぜ ＃でしょうか",
+        "＃占い の ＃ご予約 は ＃こちら ＃から ＃どうぞ （※リンクは貼られていない） ＃お待ち ＃して ＃おります",
+        "＃間違えて ＃昨日 の ＃日記 を ＃ここに ＃書いて ＃しまいました ＃消し方 が ＃分かり ＃ません ＃恥ずかしい ＃です",
+        "＃夜 は ＃少し ＃冷え ＃ますね ＃温かい ＃スープ を ＃飲んで ＃暖かく ＃して ＃お休み ＃ください ＃また ＃明日",
+        "【お知らせ】丝霞です！庵主のハッシュタグの使い方があまりにもおじいちゃんすぎて見苦しかったので（笑）、今後は私が定期的にアカウント管理しまーす！🙋‍♀️✨ 今週の限定メニューは「桂花烏龍茶」です！みんなぜひ飲みに来てね〜！ #雲漢 #お茶活",
+        "【大激怒】勝手に店の経費で「座高1メートルの巨大なカエルぬいぐるみ」を注文したのは誰ですか。犯人は本日のおやつ（私が作ったやつだけど）抜きです。心当たりのある庵主は今すぐ事務室に実物持って来なさい！！💢🐸 #雲漢 #業務連絡 #またやらかした",
+        "丝霞です！さっき庵主が「スマホの画面が急に真っ暗になって動かなくなった」とかガチトーンでうろたえてたんだけど、単に充電切れてただけでした😂 ちなみに明日の占い、午後の枠がちょっとだけ空いてるから狙い目ですよ！ #雲漢",
+        "庵主が客席で例のデカい龍の抱き枕を思いっきり抱きしめたまま爆睡しちゃってるので、本日の営業はこれにて終了しまーす！笑 最近疲れてそうだったから起こすの可哀想だし、もう戸締まりして帰りますね！お疲れ様でした〜！👋バイバイ！ #雲漢 #閉店",
+        "みんなが言ってるやつ昨日買ったんだけど発色良すぎて大優勝では……？ パケも可愛いし絶対定番化してほしい🥺 ",
+        "ちょっと待って、さっきのアカウント間違えました。今のは見なかったことにしてください。忘れてください。",
+        "明日からLOW TIDE SIGNALのツアー始まるのにテスト期間被って行けないの絶望すぎる。通販のアクスタだけは何が何でも勝ち取る😭🔥"
+    ];
+
+    window.onload = function() {
+        const monthSel = document.getElementById('birth-month');
+        for (let m = 1; m <= 12; m++) {
+            let opt = document.createElement('option');
+            opt.value = m; opt.innerText = m + "月";
+            monthSel.appendChild(opt);
+        }
+        adjustDays();
+        changeBackyard();
+        changeSNS();
+    };
+
+    function adjustDays() {
+        const month = parseInt(document.getElementById('birth-month').value, 10);
+        const daySel = document.getElementById('birth-day');
+        if(!daySel) return;
+        daySel.innerHTML = "";
+        
+        let maxDays = 31;
+        if ([4, 6, 9, 11].includes(month)) maxDays = 30;
+        else if (month === 2) maxDays = 29;
+
+        for (let d = 1; d <= maxDays; d++) {
+            let opt = document.createElement('option');
+            opt.value = d; opt.innerText = d + "日";
+            daySel.appendChild(opt);
+        }
+    }
+
+    function toggleYearInput() {
+        const isChecked = document.getElementById('no-year-check').checked;
+        document.getElementById('full-date-group').style.display = isChecked ? 'none' : 'block';
+        document.getElementById('md-date-group').style.display = isChecked ? 'block' : 'none';
+    }
+
+    // ─── 統合・修正された「雲漢の気配」切り替え関数 ───
+    function changeBackyard() {
+        const idx = Math.floor(Math.random() * backyardStories.length);
+        const storyText = backyardStories[idx];
+        document.getElementById('backyard-text').innerText = storyText;
+
+        const container = document.querySelector('.container');
+
+        // 条件に合うように元配列の文言側を「【突発的な気配】」に変更して連動させています
+        if (storyText.includes("【突発")) {
+            container.classList.add('ominous-mode');
+            document.getElementById('yunhai-dialogue').innerText = "「……すまないが、少し静かに。今、この庵の境界線をすり抜けて、酷く冷たいものが紛れ込んだようだ。」";
+        } else {
+            container.classList.remove('ominous-mode');
+        }
+    }
+
+    function changeSNS() {
+        const idx = Math.floor(Math.random() * snsPosts.length);
+        document.getElementById('sns-text').innerText = snsPosts[idx];
+    }
+
+    function switchCourse() {
+        const selectedCourse = document.querySelector('input[name="course"]:checked').value;
+        document.getElementById('area-casual').style.display = (selectedCourse === 'casual') ? 'block' : 'none';
+        document.getElementById('area-jikkuri').style.display = (selectedCourse === 'jikkuri') ? 'block' : 'none';
+        document.getElementById('area-name').style.display = (selectedCourse === 'name') ? 'block' : 'none';
+        document.getElementById('result-area').style.display = 'none';
+    }
+
+    function selectTarot(cardNumber) {
+        const card = tarotCards[Math.floor(Math.random() * tarotCards.length)];
+        
+        document.getElementById('yunhai-dialogue').innerText = `「……貴方が選んだのは、${cardNumber}番目の札ですね。これが今の貴方に必要な、ひとつの『きっかけ』の言葉です」`;
+        document.getElementById('result-course-type').innerText = "◆ 日常の指標（タロット・ワンオラクル）";
+        document.getElementById('result-title').innerText = `引き当てた導き：${card.name} （${card.meaning}）`;
+        document.getElementById('result-comment').innerText = card.text;
+        
+        document.getElementById('special-message-container').innerHTML = "";
+        document.getElementById('result-area').style.display = 'block';
+
+        changeBackyard();
+    }
+
+    function runFourPillars() {
+        const isYearUnknown = document.getElementById('no-year-check').checked;
+        let totalSum = 0;
+        let dialogueText = "";
+
+        if (isYearUnknown) {
+            const m = parseInt(document.getElementById('birth-month').value, 10) || 1;
+            const d = parseInt(document.getElementById('birth-day').value, 10) || 1;
+            totalSum = m + d;
+            dialogueText = `「お生まれの年が定かでなくとも、その月日に流れる氣から紡ぐことはできます。貴方の盤面を広げましょう」`;
+        } else {
+            const dateVal = document.getElementById('birth-input').value;
+            if (!dateVal) {
+                alert("生年月日を入力してください。");
+                return;
+            }
+            const dateObj = new Date(dateVal);
+            const y = dateObj.getFullYear();
+            const m = dateObj.getMonth() + 1;
+            const d = dateObj.getDate();
+            totalSum = y + m + d;
+            dialogueText = `「${y}年 ${m}月 ${d}日……ふむ、貴方がこの世に生を受けた刻の、星の並びが視えました」`;
+        }
+
+        const elementIdx = totalSum % elements.length;
+        const selectedElement = elements[elementIdx];
+
+        document.getElementById('yunhai-dialogue').innerText = dialogueText;
+        document.getElementById('result-course-type').innerText = "◆ 宿命の紐解き（簡易四柱推命・日干鑑定）";
+        document.getElementById('result-title').innerText = `導き出された気質：${selectedElement.name}`;
+        document.getElementById('result-comment').innerText = selectedElement.text;
+
+        document.getElementById('special-message-container').innerHTML = "";
+        document.getElementById('result-area').style.display = 'block';
+
+        changeBackyard();
+    }
+
+    function runNameFortune() {
+        const nameInput = document.getElementById('name-input').value.trim();
+        if (!nameInput) {
+            alert("お名前を入力してください。");
+            return;
+        }
+
+        let fortuneTitle = "";
+        let fortuneText = "";
+        let specialBlockHTML = "";
+
+        if (specialCharacters[nameInput]) {
+            const spec = specialCharacters[nameInput];
+            const fortune = nameFortunes[spec.fixedIndex];
+            
+            document.getElementById('yunhai-dialogue').innerText = spec.dialogue;
+            fortuneTitle = fortune.type;
+            fortuneText = fortune.text;
+            
+            specialBlockHTML = `
+                <div class="special-message-block">
+                    <div class="special-message-title">◆ 庵主より</div>
+                    <div>${spec.message}</div>
+                </div>
+            `;
+
+            if (spec.hasGachi) {
+                specialBlockHTML += `
+                    <button class="gachi-trigger-btn" onclick="triggerGachiRoute('${nameInput}')">
+                        ${spec.gachiButtonText}
+                    </button>
+                `;
+            }
+        } else {
+            let nameSum = 0;
+            for (let i = 0; i < nameInput.length; i++) {
+                nameSum += nameInput.charCodeAt(i);
+            }
+            const idx = nameSum % nameFortunes.length;
+            const fortune = nameFortunes[idx];
+
+            document.getElementById('yunhai-dialogue').innerText = `「『${nameInput}』……美しい響きですね。その名に宿る五行の傾きを測ってみましょう」`;
+            fortuneTitle = fortune.type;
+            fortuneText = fortune.text;
+        }
+
+        document.getElementById('result-course-type').innerText = "◆ 姓名の響き（姓名五行鑑定）";
+        document.getElementById('result-title').innerText = `名前に宿る理：${fortuneTitle}`;
+        document.getElementById('result-comment').innerText = fortuneText;
+        document.getElementById('special-message-container').innerHTML = specialBlockHTML;
+        
+        document.getElementById('result-area').style.display = 'block';
+
+        changeBackyard();
+    }
+
+    // ─── ガチ霊視のトリガーと演出 ───
+    function triggerGachiRoute(name) {
+        const spec = specialCharacters[name];
+        if (!spec) return;
+
+        const btn = document.querySelector('.gachi-trigger-btn');
+        if (btn) btn.style.display = 'none';
+
+        const overlay = document.getElementById("omen-overlay");
+        overlay.style.opacity = "0.75";
+
+        setTimeout(() => {
+            overlay.style.opacity = "0";
+        }, 1500);
+
+        const dialogueBox = document.getElementById("yunhai-dialogue");
+        dialogueBox.innerHTML = "・・・<br>・・・・・・";
+
+        setTimeout(() => {
+            dialogueBox.innerText = spec.gachiDialogue;
+        }, 1800);
+
+        setTimeout(() => {
+            const container = document.getElementById("special-message-container");
+            
+            container.innerHTML += `
+                <div class="gachi-result-block">
+                    <strong style="color: #818cf8;">◆ 鑑定室の奥底（本霊視・感知思念）</strong><br><br>
+                    <div id="gachi-text" style="white-space: pre-wrap;"></div>
+                </div>
+            `;
+
+            typeWriter(document.getElementById("gachi-text"), spec.gachiResult, 18);
+        }, 3500);
+    }
+
+    // ─── タイピングエフェクト（改行対応修正版） ───
+    function typeWriter(target, plainText, speed = 25) {
+        target.textContent = ""; 
+        let i = 0;
+
+        function write() {
+            if (i >= plainText.length) return;
+            
+            // textContentに1文字ずつ足すことで、エスケープされずに改行記号（\n）がそのまま改行として処理されます
+            target.textContent += plainText.charAt(i);
+            i++;
+            setTimeout(write, speed);
+        }
+        write();
+    }
+</script>
+</body>
+</html>
